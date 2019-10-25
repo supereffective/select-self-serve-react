@@ -1,0 +1,124 @@
+import React, { Component } from 'react';
+
+import './PageComp.css';
+
+import { ObservablePageStore } from './AppStore'
+
+import {
+MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler,
+MDBCollapse, MDBFormInline, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu,
+MDBDropdownItem, MDBBtn, MDBIcon, MDBCol, p, MDBCardText, MDBCardTitle, MDBCardImage,
+MDBCardBody, MDBCard, MDBPagination, MDBPageItem, MDBPageNav, MDBRow, MDBInput,
+} from 'mdbreact';
+
+import { Card, Row, Col } from 'react-bootstrap';
+
+import { observer } from 'mobx-react';
+
+import { action } from 'mobx';
+
+
+@observer
+class LeftCard extends Component {
+
+
+    render () {
+
+        const store = this.props.store;
+
+        const Test1 = store.pageList.map(pageList => pageList.id === 1)
+
+        const Test2 = store.pageList.map(p => p.title);
+
+
+        const title1 = store.pageList.map(pageList => pageList.title);
+
+        const subTitle1 = store.pageList.map(pageList => pageList.subTitle);
+
+
+        return (
+            <div>
+                <div className='card'>
+
+                    <p className='title1'>{store.localTitle}</p>
+
+                    <ul>
+                        <p>
+                            {store.pageList.length}
+                        </p>
+
+                    </ul>
+
+                    <p className='title2'></p>
+
+                </div>
+            </div>
+        );
+    }
+}
+
+
+
+@observer
+class RightCard extends Component {
+
+    handleChange = (e) => {
+        this.props.store.localTitle = e.target.value;
+    };
+
+    render () {
+        const store = this.props.store;
+        return (
+            <div>
+                { store.report }
+                <p>PADD HERE</p>
+                {store.pageList}
+                <div className='card'>
+                    <form >
+                        <MDBInput
+                            label="Title"
+                            name="title"
+                            id="title"
+                            onChange={this.handleChange}
+                        />
+
+                        <p className='inputLabel3'>Less than 100 characters</p>
+
+                        <MDBInput
+                            label="Subtitle"
+                            name="subTitle"
+                            id="subTitle"
+                            value={store.localTitle}
+                            onChange={store.addCount}
+                        />
+
+                       <MDBInput
+                            label="Page Number"
+                            name="pageNumber"
+                            id="pageNumber"
+                            onChange={store.backPage}
+                       />
+
+                        <button onClick={ this.backPage }> Back page </button>
+
+                        <button onClick={ this.onNewPage }> Submit </button>
+                    </form>
+                </div>
+            </div>
+        );
+    }
+
+    onNewPage = (e) => {
+        e.preventDefault();
+
+        this.props.store.addPage(this.props.store.localTitle);
+        return this.props.store.pageList.length;
+    }
+}
+
+
+
+export {
+    LeftCard,
+    RightCard
+}

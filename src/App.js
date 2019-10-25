@@ -1,26 +1,34 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { NavigationMain } from './main';
+import { NavbarPage, PaginationGetStatic } from './NavPag';
+import { LeftCard, RightCard } from './Cards';
+import { ObservablePageStore } from './AppStore';
+import {
+         Row,
+         Col
+        } from 'react-bootstrap';
+
+import {
+         MDBCol,
+         MDBRow,
+         MDBContainer
+       } from 'mdbreact';
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <MDBContainer>
+            <MDBRow>
+                <MDBCol sm={5} style={{ marginTop: "1rem", margin: "2.5rem"}}><LeftCard store={ ObservablePageStore } /></MDBCol>
+                <MDBCol sm={5} style={{ marginTop: "1rem", margin: "2.5rem"}}><RightCard store={ ObservablePageStore } /></MDBCol>
+            </MDBRow>
+
+            <PaginationGetStatic className='d-flex justify-content-center' store={ ObservablePageStore }/>
+
+        </MDBContainer>
+    );
 }
 
 export default App;
